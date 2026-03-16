@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AntiGravity Fitness Studio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #14141d;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+            --purple: #9d4edd;
+            --blue: #00d2ff;
+            --gradient: linear-gradient(135deg, var(--purple), var(--blue));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 800;
+        }
+
+        .text-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--blue);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 10px 20px rgba(157, 78, 221, 0.3);
+        }
+
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .btn-primary:hover:before {
+            opacity: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Sections General */
+        section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(157,78,221,0.15) 0%, rgba(0,210,255,0.05) 30%, rgba(10,10,15,1) 70%);
+            z-index: -1;
+            animation: pulse 15s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* About */
+        .about-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+        
+        .about-image .img-placeholder {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, rgba(157,78,221,0.2), rgba(0,210,255,0.2));
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-image .img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { left: 200%; }
+        }
+
+        /* Classes */
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .class-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .class-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: rgba(157, 78, 221, 0.3);
+        }
+
+        .class-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .class-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .class-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .class-card p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: -20px;
+            right: 30px;
+            font-size: 4rem;
+            color: rgba(157, 78, 221, 0.2);
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .client-info h4 {
+            color: var(--blue);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 120px 50px;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(0, 210, 255, 0.1));
+            border-radius: 30px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            background: #050508;
+            padding: 40px 50px;
+            text-align: center;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 20px;
+            }
+            nav {
+                margin-top: 20px;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            section {
+                padding: 60px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">ANTI<span class="text-gradient">GRAVITY</span></a>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#classes">Classes</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="animate-on-scroll">
+            <h1>Defy Gravity.<br><span class="text-gradient">Elevate Your Spirit.</span></h1>
+            <p>Experience fitness from a new perspective. Join the ultimate aerial studio and transform your body and mind.</p>
+            <a href="#contact" class="btn btn-primary">Start Your Journey</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-content animate-on-scroll">
+            <div class="about-text">
+                <div class="section-header" style="text-align: left;">
+                    <h2>Welcome to the <br><span class="text-gradient">Next Level</span></h2>
+                </div>
+                <p>AntiGravity is a sanctuary for those looking to break free from traditional workouts. We combine the mindfulness of yoga, the athleticism of gymnastics, and the freedom of flight in an immersive, state-of-the-art studio.</p>
+                <p>Whether you're looking to decompress your spine, build core strength, or simply experience the joy of flying, our certified instructors will guide you safely into the air.</p>
+            </div>
+            <div class="about-image">
+                <div class="img-placeholder">
+                    <span style="color: rgba(255,255,255,0.5); letter-spacing: 2px;">VIRTUAL DOMAIN</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="classes">
+        <div class="section-header animate-on-scroll">
+            <h2>Our <span class="text-gradient">Disciplines</span></h2>
+            <p style="color: var(--text-muted);">Choose your flight path.</p>
+        </div>
+        <div class="classes-grid">
+            <div class="class-card animate-on-scroll">
+                <div class="class-icon">🧘‍♀️</div>
+                <h3>Aerial Yoga</h3>
+                <p>Deepen your stretches, improve flexibility, and achieve challenging inversions with the support of our premium hammocks.</p>
+                <a href="#contact" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.9rem;">Book</a>
+            </div>
+            <div class="class-card animate-on-scroll" style="transition-delay: 0.2s;">
+                <div class="class-icon">⚡</div>
+                <h3>Flying Fitness</h3>
+                <p>A high-intensity, zero-impact workout that builds serious core and upper body strength while you swing, flip, and fly.</p>
+                <a href="#contact" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.9rem;">Book</a>
+            </div>
+            <div class="class-card animate-on-scroll" style="transition-delay: 0.4s;">
+                <div class="class-icon">💫</div>
+                <h3>Inversion Therapy</h3>
+                <p>Focus on spinal decompression, joint mobility, and deep relaxation. Perfect for recovery and easing back pain.</p>
+                <a href="#contact" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.9rem;">Book</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <div class="section-header animate-on-scroll">
+            <h2>Client <span class="text-gradient">Stories</span></h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card animate-on-scroll">
+                <div class="quote-icon">"</div>
+                <p class="testimonial-text">"I've never felt so strong and weightless at the same time. The instructors are amazing and the vibe is electric!"</p>
+                <div class="client-info">
+                    <h4>Sarah J.</h4>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Aerial Yoga Member</span>
+                </div>
+            </div>
+            <div class="testimonial-card animate-on-scroll" style="transition-delay: 0.2s;">
+                <div class="quote-icon">"</div>
+                <p class="testimonial-text">"Inversion therapy completely cured my lower back pain. It's the highlight of my week."</p>
+                <div class="client-info">
+                    <h4>Mark R.</h4>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Recovery Client</span>
+                </div>
+            </div>
+            <div class="testimonial-card animate-on-scroll" style="transition-delay: 0.4s;">
+                <div class="quote-icon">"</div>
+                <p class="testimonial-text">"Flying fitness is the hardest and most fun workout I've ever done. The studio aesthetics are insane."</p>
+                <div class="client-info">
+                    <h4>Elena T.</h4>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Fitness Enthusiast</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="cta-section animate-on-scroll">
+            <h2>Ready to <span class="text-gradient">Fly?</span></h2>
+            <p>Join the AntiGravity community today. First class is on us.</p>
+            <a href="mailto:hello@antigravity.studio" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 50px;">Claim Your Free Pass</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 AntiGravity Fitness Studio. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // observer.unobserve(entry.target); // Optional: keep animating on scroll
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar blur effect on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(10, 10, 15, 0.95)';
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.5)';
+            } else {
+                header.style.background = 'rgba(10, 10, 15, 0.8)';
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
